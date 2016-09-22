@@ -1,32 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4c536285-d4e7-4802-a895-57b4430dd03e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/com.mysql.jdbc_5.1.5.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_mysql_jdbc_5_1_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/DataBaseDemo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/annotations/Column.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/annotations/Key.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/annotations/KeyColumn.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/annotations/Table.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/columns/Message.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/columns/Tag.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/columns/User.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/dao/DAOFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/dao/ReflectionJdbcDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/dao/ReflectionJdbcDaoException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/database/dao/ReflectionJdbcDaoImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Yarik/Messages/YarikMessageType.class" afterPath="$PROJECT_DIR$/out/production/Yarik/Messages/YarikMessageType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Yarik/Network/Handler.class" afterPath="$PROJECT_DIR$/out/production/Yarik/Network/Handler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/com_esotericsoftware_kryonet_2_22_0_RC1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_esotericsoftware_kryonet_2_22_0_RC1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/com_googlecode_json_simple_json_simple_1_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_googlecode_json_simple_json_simple_1_1_1.xml" />
+    <list default="true" id="4c536285-d4e7-4802-a895-57b4430dd03e" name="Default" comment="database added">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Yarik.iml" afterPath="$PROJECT_DIR$/Yarik.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Messages/YarikMessageType.java" afterPath="$PROJECT_DIR$/src/Messages/YarikMessageType.java" />
     </list>
     <ignored path="Yarik.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,8 +37,8 @@
       <file leaf-file-name="db.properties" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.050675675">
-              <caret line="2" column="47" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.10135135">
+              <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -270,6 +246,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Yarik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Yarik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Yarik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Yarik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="annotations" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -654,6 +670,13 @@
       <option name="number" value="Default" />
       <updated>1474531589735</updated>
     </task>
+    <task id="LOCAL-00001" summary="database added">
+      <created>1474545614502</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1474545614502</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -700,6 +723,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="database added" />
+    <option name="LAST_COMMIT_MESSAGE" value="database added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -965,8 +992,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.050675675">
-          <caret line="2" column="47" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
+        <state vertical-scroll-proportion="0.10135135">
+          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
           <folding />
         </state>
       </provider>

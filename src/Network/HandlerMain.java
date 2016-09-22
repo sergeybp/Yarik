@@ -10,9 +10,9 @@ import java.util.ArrayList;
 /**
  * Created by sergeybp on 22.09.16.
  */
-public class Handler {
+public class HandlerMain {
 
-    Handler(){
+    HandlerMain(){
 
     }
 

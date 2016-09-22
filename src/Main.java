@@ -29,7 +29,7 @@ public class Main {
         JSONObject object = message.encode();
 
 
-        // starting server. Handler will handle all incoming messages.
+        // starting server. HandlerMain will handle all incoming messages.
         Network network = new Network("Main", "0.0.0.0",4444);
         try {
             network.startServer();

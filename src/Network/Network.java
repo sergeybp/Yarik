@@ -41,8 +41,10 @@ public class Network {
     }
 
     public void handleReceive(JSONObject object){
-        Handler handler = new Handler();
-        handler.handle(object);
+        if(globalName.equals("Main")) {
+            HandlerMain handler = new HandlerMain();
+            handler.handle(object);
+        }
     }
 
     public void sendJSON(String ip, int port, JSONObject object) throws IOException {

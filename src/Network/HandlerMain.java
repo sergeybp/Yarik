@@ -10,12 +10,13 @@ import java.util.ArrayList;
 /**
  * Created by sergeybp on 22.09.16.
  */
-public class HandlerMain {
+public class HandlerMain extends AbstractHandler {
 
     HandlerMain(){
 
     }
 
+    @Override
     public void handle(JSONObject object){
 
         //TODO

@@ -1,5 +1,8 @@
 package Network;
 
+import Network.Handlers.ClientHandler;
+import Network.Handlers.HandlerInitServer;
+import Network.Handlers.HandlerMain;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -14,19 +17,31 @@ import java.io.IOException;
  */
 public class Network {
 
+    public static String INIT = "INIT";
+    public static String MAIN = "MAIN";
+    public static String CLIENT = "CLIENT";
+
     String globalName;
     String ip;
     int port;
+    String handlerName;
 
-    public Network(String globalName, String ip, int port){
+    private Server server;
+
+    public Network(String globalName, String ip, int port, String handlerName){
         this.globalName = globalName;
         this.ip = ip;
         this.port = port;
+        this.handlerName = handlerName;
     }
 
 
+    public void stopServer(){
+        server.close();
+    }
+
     public void startServer() throws IOException {
-        Server server = new Server();
+        server = new Server();
         server.start();
         server.bind(port);
         Kryo kryo = server.getKryo();
@@ -41,8 +56,16 @@ public class Network {
     }
 
     public void handleReceive(JSONObject object){
-        if(globalName.equals("Main")) {
+        if(handlerName.equals(MAIN)) {
             HandlerMain handler = new HandlerMain();
+            handler.handle(object);
+        }
+        if(handlerName.equals(INIT)) {
+            HandlerInitServer handler = new HandlerInitServer(this);
+            handler.handle(object);
+        }
+        if(handlerName.equals(CLIENT)) {
+            ClientHandler handler = new ClientHandler();
             handler.handle(object);
         }
     }
@@ -54,6 +77,19 @@ public class Network {
         kryo.register(JSONObject.class);
         client.connect(5000, ip, port);
         client.sendTCP(object);
+        client.close();
+    }
+
+    public String getGlobalName(){
+        return globalName;
+    }
+
+    public String getIp(){
+        return ip;
+    }
+
+    public int getPort(){
+        return port;
     }
 
 }

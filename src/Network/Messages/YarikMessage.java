@@ -54,58 +54,36 @@ public abstract class YarikMessage {
 
         String type = object.get(TYPE).toString();
         //TODO
+        YarikMessage message = null;
+
         if(type.equals(YarikMessageType.PUBLISH.name())){
-            YarikMessage message = new MessagePublish();
-            YarikMessageField[] fields = message.getMessageFields();
-            ArrayList<String> content = new ArrayList<>();
-            for(YarikMessageField field : fields){
-                content.add(object.get(field.name()).toString());
-            }
-            message.setFieldsContent(content);
-            return message;
+             message = new MessagePublish();
+
         }
         if(type.equals(YarikMessageType.MANAGE.name())){
-            YarikMessage message = new MessageManage();
-            YarikMessageField[] fields = message.getMessageFields();
-            ArrayList<String> content = new ArrayList<>();
-            for(YarikMessageField field : fields){
-                content.add(object.get(field.name()).toString());
-            }
-            message.setFieldsContent(content);
-            return message;
+            message = new MessageManage();
+
         }
         if(type.equals(YarikMessageType.GET.name())){
-            YarikMessage message = new MessageGet();
-            YarikMessageField[] fields = message.getMessageFields();
-            ArrayList<String> content = new ArrayList<>();
-            for(YarikMessageField field : fields){
-                content.add(object.get(field.name()).toString());
-            }
-            message.setFieldsContent(content);
-            return message;
+            message = new MessageGet();
+
         }
         if(type.equals(YarikMessageType.ASKFORSERVER.name())){
-            YarikMessage message = new MessageAskForServer();
-            YarikMessageField[] fields = message.getMessageFields();
-            ArrayList<String> content = new ArrayList<>();
-            for(YarikMessageField field : fields){
-                content.add(object.get(field.name()).toString());
-            }
-            message.setFieldsContent(content);
-            return message;
+            message = new MessageAskForServer();
+
         }
         if(type.equals(YarikMessageType.RETURNSERVERADDRESS.name())){
-            YarikMessage message = new MessageReturnServerAddress();
-            YarikMessageField[] fields = message.getMessageFields();
-            ArrayList<String> content = new ArrayList<>();
-            for(YarikMessageField field : fields){
-                content.add(object.get(field.name()).toString());
-            }
-            message.setFieldsContent(content);
-            return message;
+            message = new MessageReturnServerAddress();
+
         }
 
-        return null;
+        YarikMessageField[] fields = message.getMessageFields();
+        ArrayList<String> content = new ArrayList<>();
+        for(YarikMessageField field : fields){
+            content.add(object.get(field.name()).toString());
+        }
+        message.setFieldsContent(content);
+        return message;
     }
 
 }

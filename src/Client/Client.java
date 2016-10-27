@@ -1,11 +1,13 @@
 package Client;
 
-import Network.Messages.ClientMessages.MessagePublish;
 import Network.Messages.InitMessages.MessageAskForServer;
+import Network.Messages.MessageUnknown;
 import Network.Messages.YarikMessage;
 import Network.Network;
 import Network.StandartQuad;
+import javafx.util.Pair;
 import org.json.simple.JSONObject;
+import abstractttt.AbstractServer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,19 +17,42 @@ import java.util.ArrayList;
  */
 
 //This is an example implementation of Client for Yarik.
-public class Client {
+public class Client extends AbstractServer {
 
-    Network network;
-    StandartQuad myQuad = new StandartQuad("CLIENT1", "0.0.0.0", 4567, Network.CLIENT);
+    static StandartQuad myQuad = new StandartQuad("CLIE1", "0.0.0.0", 4568, Network.CLIENT.name());
 
-    public static void main(String[] args){
+    Client() {
+        super(myQuad);
+    }
+
+    @Override
+    public void handleReceive(JSONObject object) {
+        YarikMessage gotMessage = new MessageUnknown();
+        try {
+            gotMessage = gotMessage.decode(object);
+        } catch (Exception e) {
+            // if JSON is not full
+            e.printStackTrace();
+        }
+
+        // Show message
+        String toShow = "";
+        toShow += "type = " + gotMessage.getMessageType() + "\n";
+        ArrayList<Pair<String, String>> gotContent = gotMessage.getMessageContent();
+        for (Pair<String, String> pair : gotContent) {
+            toShow += pair.getKey() + " -- " + pair.getValue() + "\n";
+        }
+        System.out.print(toShow);
+    }
+
+
+    public static void main(String[] args) {
         new Client().run();
     }
 
-    void run(){
-        network = new Network(myQuad.globalName, myQuad.ip, myQuad.port, myQuad.type);
+    void run() {
         try {
-            network.startServer();
+            startServer();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,12 +63,12 @@ public class Client {
     }
 
 
-    public StandartQuad getInitFromConfig(){
+    public StandartQuad getInitFromConfig() {
         // TODO Now we actually don't have configs :(
-        return new StandartQuad("TESTINIT", "0.0.0.0", 8765, Network.INIT);
+        return new StandartQuad("TESTINIT", "0.0.0.0", 8765, Network.INIT.name());
     }
 
-    public void sendAskForServer(StandartQuad init){
+    public void sendAskForServer(StandartQuad init) {
         YarikMessage message = new MessageAskForServer();
         ArrayList<String> content = new ArrayList<>();
         content.add(myQuad.toString());
@@ -56,7 +81,7 @@ public class Client {
         JSONObject object = message.encode();
 
         try {
-            network.sendJSON(init.ip,init.port,object);
+            sendJSON(init.ip, init.port, object);
         } catch (IOException e) {
             e.printStackTrace();
         }

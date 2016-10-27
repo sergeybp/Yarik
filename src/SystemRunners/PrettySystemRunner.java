@@ -1,6 +1,8 @@
 package SystemRunners;
 
 import InitServer.InitServer;
+import Network.Network;
+import Network.StandartQuad;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,7 +16,9 @@ public class PrettySystemRunner {
     static ArrayList<InitServer> inits = new ArrayList<>();
 
     public static void main(String[] args){
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        InitServer init = new InitServer(new StandartQuad("aaa", "0.0.0.0", 8765, Network.INIT.name()));
+        System.out.println(init.start());
+       /* BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -33,7 +37,8 @@ public class PrettySystemRunner {
                             String gName = slices[2];
                             String ip = slices[3];
                             int port = Integer.parseInt(slices[4]);
-                            InitServer server = new InitServer(gName,ip,port);
+                            StandartQuad quad = new StandartQuad(gName,ip,port,Network.INIT.name());
+                            InitServer server = new InitServer(quad);
                             inits.add(server);
                             System.out.println(server.start());
                         }
@@ -42,7 +47,7 @@ public class PrettySystemRunner {
                     }
                 }
             }
-        }).start();
+        }).start();*/
     }
 
 }

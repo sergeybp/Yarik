@@ -70,7 +70,6 @@ public class ReflectionJdbcDaoImpl implements ReflectionJdbcDao {
         query += tags.stream().
                 map(t -> "('" + messageId + "','" + userId + "','" + t.getTag() + "')").
                 collect(Collectors.joining(","));
-        System.out.println(query);
         insertQuery(query);
     }
 
@@ -103,9 +102,7 @@ public class ReflectionJdbcDaoImpl implements ReflectionJdbcDao {
                 "'" + user.getName() + "'," +
                 "'" + user.getInfo() + "'," +
                 "'" + user.getRate() + "');";
-        System.out.println(query);
         insertQuery(query);
-        System.out.println("Here");
         insertUserTags(getUserIdByName(user.getName()), tags);
     }
 

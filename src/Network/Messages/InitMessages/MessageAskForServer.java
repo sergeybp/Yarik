@@ -17,6 +17,6 @@ public class MessageAskForServer extends YarikMessage {
 
     @Override
     public YarikMessageField[] getMessageFields() {
-        return new YarikMessageField[]{YarikMessageField.NETWORKINFO};
+        return new YarikMessageField[]{YarikMessageField.NETWORKINFO, YarikMessageField.PURESYSTEMMESSAGE};
     }
 }

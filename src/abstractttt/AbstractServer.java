@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ public abstract class AbstractServer {
     protected String ip;
     protected int port;
     protected String TYPE;
+    protected StandartQuad myQuad;
 
     Server server;
 
@@ -27,6 +29,7 @@ public abstract class AbstractServer {
         this.ip = quad.ip;
         this.port = quad.port;
         this.TYPE = quad.type;
+        myQuad = quad;
     }
 
     public void stopServer(){
@@ -37,6 +40,7 @@ public abstract class AbstractServer {
         server = new Server();
         server.start();
         server.bind(port);
+        Log.set(Log.LEVEL_NONE);
         Kryo kryo = server.getKryo();
         kryo.register(JSONObject.class);
         server.addListener(new Listener() {

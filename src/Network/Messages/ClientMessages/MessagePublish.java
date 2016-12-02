@@ -16,7 +16,7 @@ public class MessagePublish extends YarikMessage {
 
     @Override
     public YarikMessageField[] getMessageFields() {
-        return new YarikMessageField[]{YarikMessageField.MESSAGE,YarikMessageField.TAGS, YarikMessageField.FEEDBACK};
+        return new YarikMessageField[]{YarikMessageField.NETWORKINFO, YarikMessageField.INFO, YarikMessageField.MESSAGE,YarikMessageField.TAGS};
     }
 
 

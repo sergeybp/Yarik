@@ -1,5 +1,8 @@
 package Client;
 
+import Network.Messages.ClientMessages.MessageGet;
+import Network.Messages.ClientMessages.MessagePublish;
+import Network.Messages.ClientMessages.MessageRegister;
 import Network.Messages.InitMessages.MessageAskForServer;
 import Network.Messages.MessageUnknown;
 import Network.Messages.YarikMessage;
@@ -9,8 +12,11 @@ import javafx.util.Pair;
 import org.json.simple.JSONObject;
 import abstractttt.AbstractServer;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by sergeybp on 27.10.16.
@@ -19,9 +25,15 @@ import java.util.ArrayList;
 //This is an example implementation of Client for Yarik.
 public class Client extends AbstractServer {
 
-    static StandartQuad myQuad = new StandartQuad("CLIE1", "0.0.0.0", 4568, Network.CLIENT.name());
+    ArrayList<String> myPosts = new ArrayList<>();
+    ArrayList<Pair<String,String>> myLikes = new ArrayList<>();
 
-    Client() {
+    String myName = "";
+
+    static StandartQuad myQuad = new StandartQuad("CLIE1", "0.0.0.0", 4578, Network.CLIENT.name());
+    StandartQuad mainServer;
+
+    public Client() {
         super(myQuad);
     }
 
@@ -35,14 +47,31 @@ public class Client extends AbstractServer {
             e.printStackTrace();
         }
 
-        // Show message
-        String toShow = "";
-        toShow += "type = " + gotMessage.getMessageType() + "\n";
-        ArrayList<Pair<String, String>> gotContent = gotMessage.getMessageContent();
-        for (Pair<String, String> pair : gotContent) {
-            toShow += pair.getKey() + " -- " + pair.getValue() + "\n";
+        switch (gotMessage.getMessageType()) {
+            case REGISTER:
+                if(gotMessage.getMessageContent().get(1).getValue().equals("NO")){
+                    myName="";
+                }
+                System.err.println(gotMessage.getMessageContent().get(1).getValue());
+                break;
+            case ASKFORSERVER:
+                mainServer = new StandartQuad(gotMessage.getMessageContent().get(0).getValue());
+                System.err.println("GOT MAIN ADDR: "+mainServer.toString());
+                break;
+            case PUBLISH:
+                System.err.println(gotMessage.getMessageContent().get(2).getValue());
+                break;
+            case GET:
+                String toShow = "";
+                String tmp = gotMessage.getMessageContent().get(3).getValue();
+                String[] splits = tmp.split("\\^");
+                for(int i = 0 ; i < splits.length;i++){
+                    String[] ss = splits[i].split("\\$");
+                    toShow+=ss[0] + " -- "+ss[1]+"\n";
+                }
+                System.err.print(toShow);
+                break;
         }
-        System.out.print(toShow);
     }
 
 
@@ -57,11 +86,135 @@ public class Client extends AbstractServer {
             e.printStackTrace();
         }
 
-        StandartQuad initQuad = getInitFromConfig();
-        sendAskForServer(initQuad);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        String line = reader.readLine();
+                        if (line == null || line.equals("exit")) {
+                            System.exit(0);
+                            return;
+                        }
+                        String[] slices = line.trim().split(" +");
+                        if (slices[0].equals("init")) {
+                            StandartQuad initQuad = getInitFromConfig();
+                            sendAskForServer(initQuad);
+                            System.err.println("SENT ASK TO INIT");
+                        } else if (slices[0].equals("register")) {
+                            if(!myName.equals("")){
+                                System.err.println("ALREADY REGISTERED!");
+                                continue;
+                            }
+                            String name = slices[1];
+                            String something = "";
+                            for(int i = 2; i < slices.length;i++){
+                                something+=slices[i];
+                            }
+                            YarikMessage message = new MessageRegister();
+                            ArrayList<String> content = new ArrayList<String>();
+                            content.add(myQuad.toString());
+                            myName = name;
+                            content.add(name+"$"+something);
+                            content.add("tag1$tag2$tag3$tag4");
+                            message.setFieldsContent(content);
+                            JSONObject object = message.encode();
+                            sendJSON(mainServer.ip,mainServer.port,object);
+                        } else if (slices[0].equals("post")) {
+                            String post = "";
+                            String tags = "";
+                            int a = 0;
+                            for(int i = 1; i < slices.length;i++){
+                                if(slices[i].equals("|")){
+                                    a=1;
+                                    continue;
+                                }
+                                if(a == 1) {
+                                    tags += slices[i] + "$";
+                                }
+                                if(a == 0){
+                                    post+=slices[i]+" ";
+                                }
+                            }
+                            tags = tags.substring(0,tags.length()-1);
+                            YarikMessage message = new MessagePublish();
+                            ArrayList<String> content = new ArrayList<String>();
+                            content.add(myQuad.toString());
+                            content.add(myName);
+                            content.add(post);
+                            content.add(tags);
+                            message.setFieldsContent(content);
+                            JSONObject object = message.encode();
+                            sendJSON(mainServer.ip,mainServer.port,object);
+                        } else if (slices[0].equals("get")) {
+                            String last = slices[1];
+                            YarikMessage message = new MessageGet();
+                            ArrayList<String> content = new ArrayList<String>();
+                            content.add(myQuad.toString());
+                            content.add(myName);
+                            content.add(last);
+                            content.add("  ");
+                            message.setFieldsContent(content);
+                            JSONObject object = message.encode();
+                            sendJSON(mainServer.ip,mainServer.port,object);
+                        } else if (slices[0].equals("spam")){
+                            spam();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+
 
     }
 
+
+    void spam(){
+        for(int i = 0 ; i < 10; i++){
+            Random r = new Random();
+            YarikMessage message = new MessagePublish();
+            ArrayList<String> content = new ArrayList<String>();
+            content.add(myQuad.toString());
+            content.add(myName);
+            content.add(""+r.nextInt(7000));
+            content.add("tag1$tag2$tag3");
+            try {
+                message.setFieldsContent(content);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            JSONObject object = message.encode();
+            try {
+                sendJSON(mainServer.ip,mainServer.port,object);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        for(int i = 0 ; i < 5; i++){
+            Random r = new Random();
+            YarikMessage message = new MessagePublish();
+            ArrayList<String> content = new ArrayList<String>();
+            content.add(myQuad.toString());
+            content.add(myName);
+            content.add(""+r.nextInt(7000));
+            content.add("tag1$tag2");
+            try {
+                message.setFieldsContent(content);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            JSONObject object = message.encode();
+            try {
+                sendJSON(mainServer.ip,mainServer.port,object);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public StandartQuad getInitFromConfig() {
         // TODO Now we actually don't have configs :(
@@ -72,6 +225,7 @@ public class Client extends AbstractServer {
         YarikMessage message = new MessageAskForServer();
         ArrayList<String> content = new ArrayList<>();
         content.add(myQuad.toString());
+        content.add("GIVE");
         try {
             message.setFieldsContent(content);
         } catch (Exception e) {

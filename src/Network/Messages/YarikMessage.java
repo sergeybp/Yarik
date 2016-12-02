@@ -3,8 +3,10 @@ package Network.Messages;
 import Network.Messages.ClientMessages.MessageGet;
 import Network.Messages.ClientMessages.MessageManage;
 import Network.Messages.ClientMessages.MessagePublish;
+import Network.Messages.ClientMessages.MessageRegister;
+import Network.Messages.DatabaseMessages.*;
 import Network.Messages.InitMessages.MessageAskForServer;
-import Network.Messages.InitMessages.MessageReturnServerAddress;
+import Network.Messages.InitMessages.MessageAskServerLoad;
 import javafx.util.Pair;
 import org.json.simple.JSONObject;
 
@@ -72,10 +74,31 @@ public abstract class YarikMessage {
             message = new MessageAskForServer();
 
         }
-        if(type.equals(YarikMessageType.RETURNSERVERADDRESS.name())){
-            message = new MessageReturnServerAddress();
+        if(type.equals(YarikMessageType.ASKESERVERLOAD.name())){
+            message = new MessageAskServerLoad();
 
         }
+        if(type.equals(YarikMessageType.GETQUEUEFORUSER.name())){
+            message = new MessageGetQueueForUser();
+
+        }
+        if(type.equals(YarikMessageType.GETUSERINFO.name())){
+            message = new MessageGetUserInfo();
+
+        }
+        if(type.equals(YarikMessageType.SETUSERINFO.name())){
+            message = new MessageSetUserInfo();
+        }
+        if(type.equals(YarikMessageType.CREATEUSER.name())){
+            message = new MessageCreateUser();
+        }
+        if(type.equals(YarikMessageType.REGISTER.name() )){
+            message = new MessageRegister();
+        }
+        if(type.equals(YarikMessageType.NEWPOST.name() )){
+            message = new MessageNewPost();
+        }
+
 
         YarikMessageField[] fields = message.getMessageFields();
         ArrayList<String> content = new ArrayList<>();

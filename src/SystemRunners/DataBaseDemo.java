@@ -1,15 +1,15 @@
 package SystemRunners;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import Database.columns.Tag;
 import Database.columns.User;
 import Database.dao.DAOFactory;
 import Database.dao.ReflectionJdbcDao;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Collections;
 import java.util.Properties;
 
 public class DataBaseDemo {
@@ -33,26 +33,18 @@ public class DataBaseDemo {
     }
 
     public static void main(String[] args) {
-        ReflectionJdbcDao<User> reflectionJdbcDao;
+        ReflectionJdbcDao reflectionJdbcDao;
         DataSource dataSource = null;
 
         dataSource = getDataSource();
         DAOFactory.createFactory(dataSource);
         DAOFactory daoFactory = DAOFactory.getInstance();
-        reflectionJdbcDao = daoFactory.getReflectionJdbcDao(User.class);
-        Connection connection;
-        try {
-            connection = dataSource.getConnection();
-            //try (PreparedStatement statement = connection.prepareStatement("DELETE FROM Users")) {
-            //  statement.executeUpdate();
-            //}
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        User nikita = new User(0);
-        nikita.setName("Nikita");
-        nikita.setSurname("Markovnikov");
-        nikita.setRate(100);
-        reflectionJdbcDao.update(nikita);
+        reflectionJdbcDao = daoFactory.getReflectionJdbcDao();
+
+        User user = reflectionJdbcDao.getUser("Nikita");
+        user.setInfo("Booooom!");
+        user.setRate(13);
+       // reflectionJdbcDao.insertUser(user, Arrays.asList(new Tag("Sport"), new Tag("Music")));
+        reflectionJdbcDao.updateUser(user, Collections.singletonList(new Tag("Sex")));
     }
 }

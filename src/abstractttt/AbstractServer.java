@@ -1,6 +1,6 @@
 package abstractttt;
 
-import Network.StandartQuad;
+import Network.StandardQuad;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -20,11 +20,11 @@ public abstract class AbstractServer {
     protected String ip;
     protected int port;
     protected String TYPE;
-    protected StandartQuad myQuad;
+    protected StandardQuad myQuad;
 
     Server server;
 
-    public AbstractServer(StandartQuad quad){
+    public AbstractServer(StandardQuad quad){
         this.globalName = quad.globalName;
         this.ip = quad.ip;
         this.port = quad.port;
@@ -54,14 +54,16 @@ public abstract class AbstractServer {
 
     public abstract void handleReceive(JSONObject object);
 
-
-
-    public void sendJSON(String ip, int port, JSONObject object) throws IOException {
+    public void sendJSON(String ip, int port, JSONObject object) {
         Client client = new Client();
         client.start();
         Kryo kryo = client.getKryo();
         kryo.register(JSONObject.class);
-        client.connect(5000, ip, port);
+        try {
+            client.connect(5000, ip, port);
+        } catch (Exception e) {
+            throw new RuntimeException("Connection exception");
+        }
         client.sendTCP(object);
         client.close();
     }

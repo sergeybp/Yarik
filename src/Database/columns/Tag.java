@@ -7,30 +7,15 @@ import Database.annotations.Table;
 /**
  * Created by nikita on 20.09.16.
  */
-@Table(table = "Tags")
+@Table(table = "tags")
 public class Tag {
-    @KeyColumn
-    @Column(column = "ID")
-    private Integer id;
 
+    @KeyColumn
     @Column(column = "tag")
     private String tag;
 
-    public Tag(Integer id, String tag) {
-        this.id = id;
+    public Tag(String tag) {
         this.tag = tag;
-    }
-
-    public Tag(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTag() {

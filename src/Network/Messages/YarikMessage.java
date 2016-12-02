@@ -27,11 +27,11 @@ public abstract class YarikMessage {
 
     public abstract YarikMessageField[] getMessageFields();
 
-    public void setFieldsContent(ArrayList<String> content) throws Exception {
+    public void setFieldsContent(ArrayList<String> content) {
         ArrayList<YarikMessageField> fields = new ArrayList<>(Arrays.asList(getMessageFields()));
         if(!(fields.size() == content.size())){
             //TODO
-            throw new Exception("Content not FULL");
+            throw new RuntimeException("Content not FULL");
         }
         messageContent = new ArrayList<>();
         for(int i = 0 ; i < fields.size(); i++){
@@ -78,7 +78,7 @@ public abstract class YarikMessage {
             message = new MessageAskServerLoad();
 
         }
-        if(type.equals(YarikMessageType.GETQUEUEFORUSER.name())){
+        if(type.equals(YarikMessageType.GET_QUEUE_FOR_USER.name())){
             message = new MessageGetQueueForUser();
 
         }
@@ -89,13 +89,13 @@ public abstract class YarikMessage {
         if(type.equals(YarikMessageType.SETUSERINFO.name())){
             message = new MessageSetUserInfo();
         }
-        if(type.equals(YarikMessageType.CREATEUSER.name())){
+        if(type.equals(YarikMessageType.CREATE_USER.name())){
             message = new MessageCreateUser();
         }
         if(type.equals(YarikMessageType.REGISTER.name() )){
             message = new MessageRegister();
         }
-        if(type.equals(YarikMessageType.NEWPOST.name() )){
+        if(type.equals(YarikMessageType.NEW_POST.name() )){
             message = new MessageNewPost();
         }
 

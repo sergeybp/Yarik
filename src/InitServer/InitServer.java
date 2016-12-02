@@ -4,8 +4,7 @@ import Network.Messages.InitMessages.MessageAskForServer;
 import Network.Messages.InitMessages.MessageAskServerLoad;
 import Network.Messages.MessageUnknown;
 import Network.Messages.YarikMessage;
-import Network.Messages.YarikMessageType;
-import Network.StandartQuad;
+import Network.StandardQuad;
 import abstractttt.AbstractServer;
 import org.json.simple.JSONObject;
 
@@ -19,10 +18,10 @@ import java.util.StringTokenizer;
 public class InitServer extends AbstractServer {
 
 
-    ArrayList<StandartQuad> users = new ArrayList<>();
-    ArrayList<StandartQuad> servers = new ArrayList<>();
+    ArrayList<StandardQuad> users = new ArrayList<>();
+    ArrayList<StandardQuad> servers = new ArrayList<>();
 
-    public InitServer(StandartQuad quad) {
+    public InitServer(StandardQuad quad) {
         super(quad);
         getConfigs();
     }
@@ -39,7 +38,7 @@ public class InitServer extends AbstractServer {
 
         switch (gotMessage.getMessageType()) {
             case ASKFORSERVER:
-                StandartQuad user = new StandartQuad(gotMessage.getMessageContent().get(0).getValue());
+                StandardQuad user = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());
                 users.add(user);
 
                 YarikMessage message = new MessageAskServerLoad();
@@ -57,17 +56,13 @@ public class InitServer extends AbstractServer {
                 JSONObject object1 = message.encode();
 
 
-                for (int i = 0; i < servers.size(); i++) {
-                    try {
-                        sendJSON(servers.get(i).ip, servers.get(i).port, object1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                for (StandardQuad server : servers) {
+                        sendJSON(server.ip, server.port, object1);
 
                 }
 
             case ASKESERVERLOAD:
-                StandartQuad serverToRet = new StandartQuad(gotMessage.getMessageContent().get(0).getValue());
+                StandardQuad serverToRet = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());
                 String available = gotMessage.getMessageContent().get(1).getValue();
                 if (available.equals("AVAILABLE")) {
                     message = new MessageAskForServer();
@@ -85,13 +80,9 @@ public class InitServer extends AbstractServer {
                     object1 = message.encode();
 
                     if(users.size()>0) {
-                        StandartQuad userNow = users.get(0);
+                        StandardQuad userNow = users.get(0);
                         users.remove(0);
-                        try {
                             sendJSON(userNow.ip, userNow.port, object1);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
 
                 } else {
@@ -113,7 +104,7 @@ public class InitServer extends AbstractServer {
 
         while(in.hasNext()){
             String s = in.nextString();
-            servers.add(new StandartQuad(s));
+            servers.add(new StandardQuad(s));
         }
 
     }

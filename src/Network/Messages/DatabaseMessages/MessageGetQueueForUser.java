@@ -10,7 +10,7 @@ import Network.Messages.YarikMessageType;
 public class MessageGetQueueForUser extends YarikMessage {
     @Override
     public YarikMessageType getMessageType() {
-        return YarikMessageType.GETQUEUEFORUSER;
+        return YarikMessageType.GET_QUEUE_FOR_USER;
     }
 
     @Override

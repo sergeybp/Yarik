@@ -3,7 +3,7 @@ package SystemRunners;
 import InitServer.InitServer;
 import MainServer.MainServer;
 import Network.Network;
-import Network.StandartQuad;
+import Network.StandardQuad;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,17 +15,17 @@ import java.util.StringTokenizer;
 public class PrettySystemRunner {
 
     static ArrayList<InitServer> inits = new ArrayList<>();
-    static ArrayList<StandartQuad> servers = new ArrayList<StandartQuad>();
+    static ArrayList<StandardQuad> servers = new ArrayList<StandardQuad>();
 
     public static void main(String[] args){
 
         getConfig();
-        for(StandartQuad tmp : servers){
+        for(StandardQuad tmp : servers){
             MainServer server = new MainServer(tmp);
             System.out.println(server.start());
         }
 
-        InitServer init = new InitServer(new StandartQuad("aaa", "0.0.0.0", 8765, Network.INIT.name()));
+        InitServer init = new InitServer(new StandardQuad("aaa", "0.0.0.0", 8765, Network.INIT.name()));
         System.out.println(init.start());
        /* BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         new Thread(new Runnable() {
@@ -112,7 +112,7 @@ public class PrettySystemRunner {
 
         while(in.hasNext()){
             String s = in.nextString();
-            servers.add(new StandartQuad(s));
+            servers.add(new StandardQuad(s));
         }
 
     }

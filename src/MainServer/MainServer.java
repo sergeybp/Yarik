@@ -6,16 +6,14 @@ import Network.Messages.ClientMessages.MessageRegister;
 import Network.Messages.DatabaseMessages.MessageCreateUser;
 import Network.Messages.DatabaseMessages.MessageGetQueueForUser;
 import Network.Messages.DatabaseMessages.MessageNewPost;
-import Network.Messages.InitMessages.MessageAskForServer;
 import Network.Messages.InitMessages.MessageAskServerLoad;
 import Network.Messages.MessageUnknown;
 import Network.Messages.YarikMessage;
 import Network.Network;
-import Network.StandartQuad;
+import Network.StandardQuad;
 import abstractttt.AbstractServer;
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -26,17 +24,17 @@ import java.util.Random;
 public class MainServer extends AbstractServer {
 
     ArrayList<String> jobsId = new ArrayList<>();
-    StandartQuad db;
-    HashMap<Integer, StandartQuad> jobs= new HashMap<>();
+    StandardQuad db;
+    HashMap<Integer, StandardQuad> jobs= new HashMap<>();
 
     Integer JOBID = 0;
 
     ArrayList<String> users = new ArrayList<>();
     Integer USERSBOUND = 20;
 
-    public MainServer(StandartQuad quad) {
+    public MainServer(StandardQuad quad) {
         super(quad);
-        db = new StandartQuad("DB","0.0.0.0",8989,Network.DATABASE.name());
+        db = new StandardQuad("DB","0.0.0.0",8989,Network.DATABASE.name());
     }
 
 
@@ -54,7 +52,7 @@ public class MainServer extends AbstractServer {
 
         switch (gotMessage.getMessageType()) {
             case ASKESERVERLOAD:
-                StandartQuad backAddress = new StandartQuad(gotMessage.getMessageContent().get(0).getValue());
+                StandardQuad backAddress = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());
                 YarikMessage message = new MessageAskServerLoad();
                 ArrayList<String> content = new ArrayList<>();
                 content.add(myQuad.toString());
@@ -71,14 +69,11 @@ public class MainServer extends AbstractServer {
                 }
                 // getting JSON from message to send
                 JSONObject object1 = message.encode();
-                try {
-                    sendJSON(backAddress.ip, backAddress.port, object1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                sendJSON(backAddress.ip, backAddress.port, object1);
                 break;
             case REGISTER:
-                backAddress = new StandartQuad(gotMessage.getMessageContent().get(0).getValue());
+                backAddress = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());
                 JOBID++;
                 jobs.put(JOBID, backAddress);
                 message = new MessageCreateUser();
@@ -93,14 +88,10 @@ public class MainServer extends AbstractServer {
                     e.printStackTrace();
                 }
                 object1 = message.encode();
-                try {
-                    sendJSON(db.ip, db.port, object1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                sendJSON(db.ip, db.port, object1);
 
                 break;
-            case CREATEUSER:
+            case CREATE_USER:
                 Integer tmpJob = Integer.parseInt(gotMessage.getMessageContent().get(1).getValue());
                 backAddress = jobs.get(tmpJob);
                 jobs.remove(tmpJob);
@@ -115,13 +106,10 @@ public class MainServer extends AbstractServer {
                     e.printStackTrace();
                 }
                 object1 = message.encode();
-                try {
-                    sendJSON(backAddress.ip, backAddress.port, object1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                sendJSON(backAddress.ip, backAddress.port, object1);
                 break;
-            case GETQUEUEFORUSER:
+            case GET_QUEUE_FOR_USER:
                 tmpJob = Integer.parseInt(gotMessage.getMessageContent().get(1).getValue());
                 backAddress = jobs.get(tmpJob);
                 jobs.remove(tmpJob);
@@ -137,11 +125,8 @@ public class MainServer extends AbstractServer {
                     e.printStackTrace();
                 }
                 object1 = message.encode();
-                try {
-                    sendJSON(backAddress.ip, backAddress.port, object1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                sendJSON(backAddress.ip, backAddress.port, object1);
+
                 break;
             case GETUSERINFO:
 
@@ -155,7 +140,7 @@ public class MainServer extends AbstractServer {
                 break;
 
             case GET:
-                backAddress = new StandartQuad(gotMessage.getMessageContent().get(0).getValue());
+                backAddress = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());
                 JOBID++;
                 jobs.put(JOBID, backAddress);
                 message = new MessageGetQueueForUser();
@@ -171,15 +156,13 @@ public class MainServer extends AbstractServer {
                     e.printStackTrace();
                 }
                 object1 = message.encode();
-                try {
+
                     sendJSON(db.ip, db.port, object1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
                 break;
 
             case PUBLISH:
-                backAddress = new StandartQuad(gotMessage.getMessageContent().get(0).getValue());
+                backAddress = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());
                 JOBID++;
                 jobs.put(JOBID, backAddress);
                 message = new MessageNewPost();
@@ -195,13 +178,9 @@ public class MainServer extends AbstractServer {
                     e.printStackTrace();
                 }
                 object1 = message.encode();
-                try {
                     sendJSON(db.ip, db.port, object1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
-            case NEWPOST:
+            case NEW_POST:
                 tmpJob = Integer.parseInt(gotMessage.getMessageContent().get(1).getValue());
                 backAddress = jobs.get(tmpJob);
                 jobs.remove(tmpJob);
@@ -217,11 +196,8 @@ public class MainServer extends AbstractServer {
                     e.printStackTrace();
                 }
                 object1 = message.encode();
-                try {
+
                     sendJSON(backAddress.ip, backAddress.port, object1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
         }
 

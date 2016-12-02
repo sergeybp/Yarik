@@ -7,26 +7,21 @@ import Database.annotations.Table;
 /**
  * Created by nikita on 20.09.16.
  */
-@Table(table = "Users")
+@Table(table = "users")
 public class User {
+
     @KeyColumn
-    @Column(column = "ID")
+    @Column(column = "user_id")
     private Integer id;
 
     @Column(column = "name")
     private String name;
 
-    @Column(column = "surname")
-    private String surname;
+    @Column(column = "info")
+    private String info;
 
     @Column(column = "rate")
-    private Integer rate;
-
-    @Column(column = "published_msg_ids")
-    private String publishedMsgIds;
-
-    @Column(column = "watched_msg_ids")
-    private String watchedMsgIds;
+    private Integer rate = 0;
 
     public User() {
     }
@@ -35,13 +30,11 @@ public class User {
         this.id = id;
     }
 
-    public User(Integer id, String name, String surname, Integer rate, String publishedMsgIds, String watchedMsgIds) {
+    public User(Integer id, String name, String info, Integer rate, String tags, String publishedMsgIds, String watchedMsgIds) {
         this.id = id;
         this.name = name;
-        this.surname = surname;
+        this.info = info;
         this.rate = rate;
-        this.publishedMsgIds = publishedMsgIds;
-        this.watchedMsgIds = watchedMsgIds;
     }
 
     public Integer getId() {
@@ -60,12 +53,12 @@ public class User {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getInfo() {
+        return info;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public Integer getRate() {
@@ -76,19 +69,8 @@ public class User {
         this.rate = rate;
     }
 
-    public String getPublishedMsgIds() {
-        return publishedMsgIds;
-    }
-
-    public void setPublishedMsgIds(String publishedMsgIds) {
-        this.publishedMsgIds = publishedMsgIds;
-    }
-
-    public String getWatchedMsgIds() {
-        return watchedMsgIds;
-    }
-
-    public void setWatchedMsgIds(String watchedMsgIds) {
-        this.watchedMsgIds = watchedMsgIds;
+    @Override
+    public String toString() {
+        return String.format("User:\tid: %d\n\t\tname: %s\n\t\tinfo: %s\n\t\trate: %d", id, name, info, rate);
     }
 }

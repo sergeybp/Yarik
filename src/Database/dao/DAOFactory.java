@@ -48,11 +48,9 @@ public class DAOFactory {
     /**
      * Returns implementation of DAO
      *
-     * @param clazz Class for getting type
-     * @param <T>   Type of objects that locate in the table of Database
      * @return implementation of {@link ReflectionJdbcDao}
      */
-    public <T> ReflectionJdbcDao<T> getReflectionJdbcDao(Class<T> clazz) {
-        return new ReflectionJdbcDaoImpl<>(clazz);
+    public ReflectionJdbcDao getReflectionJdbcDao() {
+        return new ReflectionJdbcDaoImpl();
     }
 }

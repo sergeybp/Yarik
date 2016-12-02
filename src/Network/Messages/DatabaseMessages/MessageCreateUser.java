@@ -10,7 +10,7 @@ import Network.Messages.YarikMessageType;
 public class MessageCreateUser extends YarikMessage {
     @Override
     public YarikMessageType getMessageType() {
-        return YarikMessageType.CREATEUSER;
+        return YarikMessageType.CREATE_USER;
     }
 
     @Override

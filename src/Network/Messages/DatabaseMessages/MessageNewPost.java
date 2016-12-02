@@ -10,7 +10,7 @@ import Network.Messages.YarikMessageType;
 public class MessageNewPost extends YarikMessage{
     @Override
     public YarikMessageType getMessageType() {
-        return YarikMessageType.NEWPOST;
+        return YarikMessageType.NEW_POST;
     }
 
     @Override

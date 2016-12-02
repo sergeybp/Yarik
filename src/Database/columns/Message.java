@@ -7,29 +7,34 @@ import Database.annotations.Table;
 /**
  * Created by nikita on 20.09.16.
  */
-@Table(table = "Network/Messages")
-public class Message {
-    @KeyColumn
-    @Column(column = "ID")
-    private Integer id;
+@Table(table = "messages")
+public class Message implements Comparable<Message> {
 
-    @Column(column = "tag_id")
-    private Integer tagId;
+    @KeyColumn
+    @Column(column = "message_id")
+    private Integer id;
 
     @Column(column = "text")
     private String text;
 
-    @Column(column = "publisher_id")
-    private Integer publisherId;
+    @Column(column = "user_id")
+    private Integer userId;
 
     @Column(column = "rate")
-    private Integer rate;
+    private Integer rate = 0;
 
-    public Message(Integer id, Integer tagId, String text, Integer publisherId, Integer rate) {
-        this.id = id;
-        this.tagId = tagId;
+    public Message() {};
+
+    public Message(String text, Integer userId, Integer rate) {
         this.text = text;
-        this.publisherId = publisherId;
+        this.userId = userId;
+        this.rate = rate;
+    }
+
+    public Message(Integer id, String text, Integer userId, Integer rate) {
+        this.id = id;
+        this.text = text;
+        this.userId = userId;
         this.rate = rate;
     }
 
@@ -45,14 +50,6 @@ public class Message {
         this.id = id;
     }
 
-    public Integer getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(Integer tagId) {
-        this.tagId = tagId;
-    }
-
     public String getText() {
         return text;
     }
@@ -61,12 +58,12 @@ public class Message {
         this.text = text;
     }
 
-    public Integer getPublisherId() {
-        return publisherId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setPublisherId(Integer publisherId) {
-        this.publisherId = publisherId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getRate() {
@@ -75,5 +72,10 @@ public class Message {
 
     public void setRate(Integer rate) {
         this.rate = rate;
+    }
+
+    @Override
+    public int compareTo(Message o) {
+        return this.rate.compareTo(o.getRate());
     }
 }

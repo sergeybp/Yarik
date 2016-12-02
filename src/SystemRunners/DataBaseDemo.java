@@ -9,7 +9,7 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class DataBaseDemo {
@@ -41,10 +41,10 @@ public class DataBaseDemo {
         DAOFactory daoFactory = DAOFactory.getInstance();
         reflectionJdbcDao = daoFactory.getReflectionJdbcDao();
 
-        User user = reflectionJdbcDao.getUser("Nikita");
+        User user = new User();
+        user.setName("ivan");
         user.setInfo("Booooom!");
         user.setRate(13);
-       // reflectionJdbcDao.insertUser(user, Arrays.asList(new Tag("Sport"), new Tag("Music")));
-        reflectionJdbcDao.updateUser(user, Collections.singletonList(new Tag("Sex")));
+        reflectionJdbcDao.insertUser(user, Arrays.asList(new Tag("Sport"), new Tag("Music")));
     }
 }

@@ -93,7 +93,7 @@ public class DatabaseServer extends AbstractServer {
     }
 
     private ArrayList<Tag> getTags(String tags) {
-        String[] splitTags = tags.split("$");
+        String[] splitTags = tags.split("\\$");
         ArrayList<Tag> tagArrayList = new ArrayList<>();
         for (String tag: splitTags) tagArrayList.add(new Tag(tag));
         return tagArrayList;
@@ -130,7 +130,12 @@ public class DatabaseServer extends AbstractServer {
         User user = new User();
         String[] splitInfo = info.split("\\$");
         Message message = new Message(post, dao.getUserIdByName(splitInfo[0]), 0);
-        dao.insertMessage(message, getTags(tags));
+
+        try {
+            dao.insertMessage(message, getTags(tags));
+        } catch (ReflectionJdbcDaoException e) {
+            return false;
+        }
         return true;
     }
 

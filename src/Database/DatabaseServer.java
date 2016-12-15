@@ -6,9 +6,7 @@ import Database.columns.User;
 import Database.dao.DAOFactory;
 import Database.dao.ReflectionJdbcDao;
 import Database.dao.ReflectionJdbcDaoException;
-import Network.Messages.DatabaseMessages.MessageCreateUser;
-import Network.Messages.DatabaseMessages.MessageGetQueueForUser;
-import Network.Messages.DatabaseMessages.MessageNewPost;
+import Network.Messages.DatabaseMessages.*;
 import Network.Messages.MessageUnknown;
 import Network.Messages.YarikMessage;
 import Network.StandardQuad;
@@ -19,6 +17,7 @@ import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -57,6 +56,12 @@ public class DatabaseServer extends AbstractServer {
                 break;
             case GET_QUEUE_FOR_USER:
                 getQueueForUser(gotMessage);
+                break;
+            case GET_RATEDB:
+                getRateDB(gotMessage);
+                break;
+            case FEEDBACKDB:
+                feedbackDB(gotMessage);
                 break;
         }
     }
@@ -124,6 +129,24 @@ public class DatabaseServer extends AbstractServer {
             }
         }
         return true;
+    }
+
+    public double getUserRate(String userName){
+        int id = dao.getUserIdByName(userName);
+        List<Message> messages = dao.selectAllMessages();
+        int finalRate = 0;
+        int count = 0;
+        for(int i = 0 ; i < messages.size(); i++){
+            Message tmp = messages.get(i);
+            if(tmp.getUserId() == id){
+                finalRate+=tmp.getRate();
+                count++;
+            }
+        }
+        if(count == 0){
+            return 0d;
+        }
+        return Double.valueOf(""+finalRate) / Double.valueOf(""+count);
     }
 
     private boolean postMessage(String info, String post, String tags) {
@@ -199,6 +222,44 @@ public class DatabaseServer extends AbstractServer {
         sendJSON(backAddress.ip, backAddress.port, encodedMessage);
         return content;
     }
+
+    private void getRateDB(YarikMessage gotMessage){
+        StandardQuad backAddress = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());
+        String name = gotMessage.getMessageContent().get(2).getValue();
+        ArrayList<String> content = new ArrayList<>();
+        content.add(myQuad.toString());
+        content.add(gotMessage.getMessageContent().get(1).getValue());
+        content.add(String.valueOf(getUserRate(name)));
+
+        YarikMessage message = new MessageGetRateDB();
+
+        message.setFieldsContent(content);
+
+        JSONObject encodedMessage = message.encode();
+        sendJSON(backAddress.ip, backAddress.port, encodedMessage);
+    }
+
+    private void feedbackDB(YarikMessage gotMessage){
+        StandardQuad backAddress = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());
+        String feed = gotMessage.getMessageContent().get(2).getValue();
+        ArrayList<String> content = new ArrayList<>();
+        content.add(myQuad.toString());
+        content.add(gotMessage.getMessageContent().get(1).getValue());
+        String[] splits = feed.split("\\|");
+        if(receiveFeedback(splits[0],splits[1])){
+            content.add("OK");
+        } else {
+            content.add("NO");
+        }
+
+        YarikMessage message = new MessageFeedbackDB();
+
+        message.setFieldsContent(content);
+
+        JSONObject encodedMessage = message.encode();
+        sendJSON(backAddress.ip, backAddress.port, encodedMessage);
+    }
+
 
     private ArrayList<String> newPost(YarikMessage gotMessage) {
         StandardQuad backAddress = new StandardQuad(gotMessage.getMessageContent().get(0).getValue());

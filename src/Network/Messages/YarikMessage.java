@@ -1,9 +1,8 @@
 package Network.Messages;
 
-import Network.Messages.ClientMessages.MessageGet;
-import Network.Messages.ClientMessages.MessageManage;
-import Network.Messages.ClientMessages.MessagePublish;
-import Network.Messages.ClientMessages.MessageRegister;
+import Network.Messages.ClientMessages.*;
+import Network.Messages.ClientMessages.MessageFeedback;
+import Network.Messages.ClientMessages.MessageGetRate;
 import Network.Messages.DatabaseMessages.*;
 import Network.Messages.InitMessages.MessageAskForServer;
 import Network.Messages.InitMessages.MessageAskServerLoad;
@@ -98,6 +97,19 @@ public abstract class YarikMessage {
         if(type.equals(YarikMessageType.NEW_POST.name() )){
             message = new MessageNewPost();
         }
+        if(type.equals(YarikMessageType.FEEDBACK.name() )){
+            message = new MessageFeedback();
+        }
+        if(type.equals(YarikMessageType.GET_RATE.name() )){
+            message = new MessageGetRate();
+        }
+        if(type.equals(YarikMessageType.FEEDBACKDB.name() )){
+            message = new MessageFeedbackDB();
+        }
+        if(type.equals(YarikMessageType.GET_RATEDB.name() )){
+            message = new MessageGetRateDB();
+        }
+
 
 
         YarikMessageField[] fields = message.getMessageFields();

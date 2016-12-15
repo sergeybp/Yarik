@@ -1,4 +1,4 @@
-package abstractttt;
+package AbstractServer;
 
 import Network.StandardQuad;
 import com.esotericsoftware.kryo.Kryo;
@@ -16,13 +16,15 @@ import java.io.IOException;
  */
 public abstract class AbstractServer {
 
+    public static final int TIMEOUT = 5000;
+
     protected String globalName;
     protected String ip;
     protected int port;
     protected String TYPE;
     protected StandardQuad myQuad;
 
-    Server server;
+    public Server server;
 
     public AbstractServer(StandardQuad quad){
         this.globalName = quad.globalName;
@@ -60,9 +62,9 @@ public abstract class AbstractServer {
         Kryo kryo = client.getKryo();
         kryo.register(JSONObject.class);
         try {
-            client.connect(5000, ip, port);
+            client.connect(TIMEOUT, ip, port);
         } catch (Exception e) {
-            throw new RuntimeException("Connection exception");
+            throw new ServerException("Connection exception");
         }
         client.sendTCP(object);
         client.close();
@@ -92,10 +94,6 @@ public abstract class AbstractServer {
     public String stop() {
         stopServer();
         return "SERVER STOPPED;";
-    }
-
-    public static void sendMSG(){
-
     }
 
 }

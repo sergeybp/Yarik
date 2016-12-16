@@ -59,6 +59,7 @@ public class Client extends AbstractServer {
 
     void readNext() {
         if (nowRead == nowPosts.size()) {
+            nowRead = 0;
             startRead();
             return;
         }
@@ -86,7 +87,7 @@ public class Client extends AbstractServer {
             int k = Integer.parseInt(p.getProperty("last"));
             k -= (nowPosts.size() - nowRead);
             saveProerties("last", "" + k);
-            nowRead = k;
+            nowRead = 0;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,11 +151,11 @@ public class Client extends AbstractServer {
 
     public Client() {
         super(myQuad);
-        possibleTags.add("tag1");
-        possibleTags.add("tag2");
-        possibleTags.add("tag3");
-        possibleTags.add("tag4");
-        possibleTags.add("tag5");
+        possibleTags.add("cats");
+        possibleTags.add("dogs");
+        possibleTags.add("politics");
+        possibleTags.add("travel");
+        possibleTags.add("food");
         Properties properties = null;
         try {
             properties = getProperties();
@@ -282,7 +283,7 @@ public class Client extends AbstractServer {
                 }
                 Properties p = new Properties();
                 try {
-                    getProperties();
+                    p = getProperties();
                 } catch (Exception e) {
 
                     e.printStackTrace();

@@ -242,7 +242,7 @@ public class ReflectionJdbcDaoImpl implements ReflectionJdbcDao {
             try {
                 connection = dataSource.getConnection();
                 connection.setAutoCommit(false);
-                String query = "SELECT * FROM messages WHERE user_id = '" + messageId + "';";
+                String query = "SELECT * FROM messages WHERE message_id = '" + messageId + "';";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     try (ResultSet resultSet = preparedStatement.executeQuery()) {
                         message = new Message();
